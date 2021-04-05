@@ -1,11 +1,10 @@
-const { rejects } = require("assert");
-const {exec} = require("child_process");
-const { resolve } = require("path");
+
+const { exec } = require("child_process");
 
 
-const getDuration = async (path) =>{
+const getDuration = async (link) =>{
     return new Promise((resolve,reject) => {
-        exec(`ffprobe -i ${path} -show_entries format=duration -v quiet -of csv="p=0"`, (error, stdout, stderr) => {
+        exec(`ffprobe -i ${link} -show_entries format=duration -v quiet -of csv="p=0"`, (error, stdout, stderr) => {
             if (error) {
                 return reject(stdout)
             }

@@ -16,12 +16,13 @@ const getDuration = async (link) =>{
 const takeThumbnail = async (link) => {
     const videoDuration = await getDuration(link);
     const now = Date.now()
-    
-    console.log(await fs.existsSync(path.resolve(__dirname,"tmp")))
+    const temporaryFolderPath = path.resolve(__dirname,"tmp")
+    const temporaryFolderExists = fs.existsSync(temporaryFolderPath)
+    if(!temporaryFolderExists) fs.mkdirSync(temporaryFolderPath);
 
     return new Promise((resolve,reject) => {
        
-        exec(`ffmpeg -ss ${ (10/100) * Math.floor(videoDuration)} -i ${link} -vframes 1 ${now}.png`, (error, stdout, stderr) => {
+        exec(`ffmpeg -ss ${ (10/100) * Math.floor(videoDuration)} -i ${link} -vframes 1 ${path.resolve(temporaryFolderPath)}/${now}.png`, (error, stdout, stderr) => {
             if (error) {
                 return reject(error)
             }

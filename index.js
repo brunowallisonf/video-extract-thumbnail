@@ -1,7 +1,7 @@
 
 const { exec } = require("child_process");
-
-
+const fs = require("fs");
+const path = require("path")
 const getDuration = async (link) =>{
     return new Promise((resolve,reject) => {
         exec(`ffprobe -i ${link} -show_entries format=duration -v quiet -of csv="p=0"`, (error, stdout, stderr) => {
@@ -16,8 +16,12 @@ const getDuration = async (link) =>{
 const takeThumbnail = async (link) => {
     const videoDuration = await getDuration(link);
     const now = Date.now()
+    
+    console.log(await fs.existsSync(path.resolve(__dirname,"tmp")))
+
     return new Promise((resolve,reject) => {
-        exec(`ffmpeg -ss ${ (10 /100) * Math.floor(videoDuration)} -i ${link} -vframes 1 ${now}.png`, (error, stdout, stderr) => {
+       
+        exec(`ffmpeg -ss ${ (10/100) * Math.floor(videoDuration)} -i ${link} -vframes 1 ${now}.png`, (error, stdout, stderr) => {
             if (error) {
                 return reject(error)
             }

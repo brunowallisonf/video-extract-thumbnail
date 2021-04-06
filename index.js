@@ -14,7 +14,6 @@ const getDuration = async (link) => new Promise((resolve, reject) => {
 
 const createThumbnail = async (link, temporaryFolderPath) => {
   const videoDuration = await getDuration(link);
-
   const temporaryFolderExists = await new Promise((resolve) => {
     fs.access(temporaryFolderPath).then(() => resolve(true)).catch(() => resolve(false));
   });
